@@ -1,0 +1,36 @@
+{"frames": {
+
+"discord":
+{
+	"frame": {"x":0,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"github":
+{
+	"frame": {"x":32,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"itch":
+{
+	"frame": {"x":64,"y":0,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "social-icons.png",
+	"format": "RGBA8888",
+	"size": {"w":96,"h":32},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:86eb3a14308b2cc294ff590472624528:bd3cbbb68cf5a6655b2088233bdd8caa:fc6c491617f5bb56ec0c7ba9886b8f6d$"
+}
+}

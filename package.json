@@ -1,0 +1,44 @@
+{
+  "name": "phaser3-typescript-parcel-starter",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "parcel src/index.html -p 8000",
+    "build": "parcel build src/index.html --out-dir dist",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emhuo/phaser3-typescript-parcel-starter.git"
+  },
+  "author": "Emily Huo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emhuo/phaser3-typescript-parcel-starter/issues"
+  },
+  "homepage": "https://github.com/emhuo/phaser3-typescript-parcel-starter#readme",
+  "dependencies": {
+    "phaser": "^3.55.2"
+  },
+  "devDependencies": {
+    "cssnano": "^4.1.11",
+    "gh-pages": "^3.2.3",
+    "parcel-plugin-inliner": "^1.0.16",
+    "parcel-plugin-nuke-dist": "^1.0.1",
+    "parcel-plugin-static-files-copy": "^2.6.0",
+    "postcss": "^8.3.5",
+    "tslib": "^2.3.1",
+    "typescript": "^4.3.5"
+  },
+  "staticFiles": {
+    "staticPath": "public",
+    "excludeGlob": [
+      "reference",
+      "reference/**"
+    ],
+    "watcherGlob": "**"
+  },
+  "alias": {
+    "@": "./src"
+  }
+}

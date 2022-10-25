@@ -1,0 +1,51 @@
+{ "frames": [
+   {
+    "filename": "0",
+    "frame": { "x": 0, "y": 0, "w": 160, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 160, "h": 32 },
+    "sourceSize": { "w": 160, "h": 32 },
+    "duration": 100
+   },
+   {
+    "filename": "1",
+    "frame": { "x": 160, "y": 0, "w": 160, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 160, "h": 32 },
+    "sourceSize": { "w": 160, "h": 32 },
+    "duration": 100
+   },
+   {
+    "filename": "2",
+    "frame": { "x": 320, "y": 0, "w": 160, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 160, "h": 32 },
+    "sourceSize": { "w": 160, "h": 32 },
+    "duration": 100
+   },
+   {
+    "filename": "3",
+    "frame": { "x": 480, "y": 0, "w": 160, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 160, "h": 32 },
+    "sourceSize": { "w": 160, "h": 32 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.25",
+  "image": "start-prompt.png",
+  "format": "RGBA8888",
+  "size": { "w": 640, "h": 32 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "blue-button", "from": 0, "to": 1, "direction": "pingpong" },
+   { "name": "pink-button", "from": 2, "to": 3, "direction": "pingpong" }
+  ]
+ }
+}

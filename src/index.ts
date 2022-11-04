@@ -1,22 +1,17 @@
-import Phaser from 'phaser'
-import { PhysicsConfig, RenderConfig, ScaleConfig } from './constants/ConfigKeys'
-
-import Preload from './scenes/load/Preload'
-import Loading from './scenes/load/Loading'
-import TitleScene from './scenes/gui/TitleScene'
-import DemoScene from './scenes/game/DemoScene'
-import HudScene from './scenes/gui/HudScene'
+import Phaser from 'phaser';
+import { PhysicsConfig, ScaleConfig } from './constants/ConfigKeys';
+import GameScene from './scenes/GameScene';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   scale: ScaleConfig,
-  render: RenderConfig,
-	physics: PhysicsConfig.DEBUG,
+  // render: RenderConfig,
+  physics: PhysicsConfig.GAME,
   dom: {
     createContainer: true,
   },
   // plugins: {},
-  scene: [ Preload, Loading, TitleScene, DemoScene, HudScene ]
-}
+  scene: [GameScene],
+};
 
-export default new Phaser.Game(config)
+export default new Phaser.Game(config);

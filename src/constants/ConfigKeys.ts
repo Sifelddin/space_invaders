@@ -1,9 +1,8 @@
-import Viewport from './DisplayKeys'
+import Viewport from './DisplayKeys';
 
-enum ElementKeys
-{
+enum ElementKeys {
   GAME_CONTAINER = 'game-container',
-  PAGE = 'page'
+  PAGE = 'page',
 }
 
 const PhysicsConfig = {
@@ -11,17 +10,17 @@ const PhysicsConfig = {
     default: 'arcade',
     arcade: {
       gravity: { y: 0 },
-      debug: false
-    }
+      debug: false,
+    },
   },
   DEBUG: {
     default: 'arcade',
     arcade: {
       gravity: { y: 0 },
-      debug: true
-    }
-  }
-}
+      debug: true,
+    },
+  },
+};
 
 const RenderConfig: Phaser.Types.Core.RenderConfig = {
   antialias: false,
@@ -29,22 +28,18 @@ const RenderConfig: Phaser.Types.Core.RenderConfig = {
   pixelArt: true,
   roundPixels: true,
   // clearBeforeRender: false, /* clear canvas bt each frame; disable if have full-screen bg or obj */
-  transparent: true
-}
+  transparent: true,
+};
 
 const ScaleConfig: Phaser.Types.Core.ScaleConfig = {
-	parent: ElementKeys.GAME_CONTAINER,
+  parent: ElementKeys.GAME_CONTAINER,
   // expandParent: false,   /* Adjust CSS height property of parent and/or document body to 100% */
   width: Viewport.WIDTH,
   height: Viewport.HEIGHT,
-  mode: Phaser.Scale.FIT,
-  autoRound: true,
-  autoCenter: Phaser.Scale.CENTER_BOTH
-}
+  zoom: 1.1,
+  // mode: Phaser.Scale.FIT,
+  // autoRound: true,
+  // autoCenter: Phaser.Scale.CENTER_BOTH
+};
 
-export {
-  ElementKeys,
-  PhysicsConfig,
-  RenderConfig,
-  ScaleConfig
-}
+export { ElementKeys, PhysicsConfig, RenderConfig, ScaleConfig };

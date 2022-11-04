@@ -1,5 +1,0 @@
-{
-  'Public Sans',
-  'Itim',
-  'Jost'
-}

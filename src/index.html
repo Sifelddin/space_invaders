@@ -1,18 +1,49 @@
 <html>
+  <head>
+    <title>Phaser3 Typescript Starter</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-title"
+      content="Phaser3 Typescript Starter"
+    />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link href="index.css" rel="stylesheet" />
+  </head>
 
-<head>
-  <title>Phaser3 Typescript Starter</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Phaser3 Typescript Starter">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="shortcut icon" href="favicon.ico" />
-  <link href="index.css" rel="stylesheet">
-</head>
-
-<body id ="page">
-  <div><div id="game-container"></div></div>
-  <script src="index.ts"></script>
-</body>
-
+  <body id="page">
+    <div class="canvas-wrapper">
+      <div class="game-scene" id="game-container"></div>
+      <div id="keys" class="keys">
+        <ul class="actions-list">
+          <li>
+            <span class="action"> Moving Left :</span> press arrow left
+            <strong class="symbol"> ← </strong> or press key
+            <strong class="symbol">Q </strong>
+          </li>
+          <li>
+            <span class="action">Moving Right :</span> press arrow right
+            <strong class="symbol"> → </strong> or press key
+            <strong class="symbol"> D </strong>
+          </li>
+          <li>
+            <span class="action">Shooting :</span> press key
+            <strong class="symbol">SPACE</strong>
+          </li>
+          <li>
+            <span class="action">Start or Pause :</span> press Enter or left
+            Mouse Click
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script src="index.ts"></script>
+  </body>
 </html>

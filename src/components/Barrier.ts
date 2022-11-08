@@ -10,8 +10,8 @@ export default class Barrier {
     this.x = gx;
     this.y = y;
     this.scene = scene;
-
-    for (let r = 0; r < 3; r++) {
+    let rows = scene.level === 2 ? 2 : 3;
+    for (let r = 0; r < rows; r++) {
       for (let c = 0; c < 3; c++) {
         this.child = scene.physics.add.sprite(
           this.x,

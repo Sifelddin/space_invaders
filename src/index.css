@@ -10,7 +10,7 @@ body {
     rgb(118, 139, 243) 0%,
     rgb(189, 200, 255) 100%
   );
-  overflow: hidden;
+
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -18,10 +18,14 @@ body {
 
 .canvas-wrapper {
   display: flex;
+  flex-direction: column-reverse;
   align-items: center;
   justify-content: start;
-  height: 100%;
-  margin-left: 5rem;
+  padding: 0.2rem 0;
+}
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 .action {
   font-weight: bold;
@@ -37,4 +41,15 @@ body {
 .symbol {
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+@media screen and (min-width: 1250px) {
+  .canvas-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    height: 100%;
+    margin-left: 5rem;
+  }
 }

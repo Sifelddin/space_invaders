@@ -400,12 +400,13 @@ export default class GameScene extends Phaser.Scene {
       if (this.level > 3) {
         this.scene.start('WinnerScene', { score: this.score });
       }
+      this.direction = 'right';
       this.lives++;
       this.intervalIndex = [];
       this.isStarted = false;
       this.xTimes = 0;
       this.barriers = [];
-      this.enemyBulletVelo -= 50;
+      this.enemyBulletVelo -= 100;
       this.scene.start('GameLevelScene', {
         level: this.level,
       });

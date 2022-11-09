@@ -1,7 +1,7 @@
 {
-  "name": "phaser3-typescript-parcel-starter",
+  "name": "space_invaders",
   "version": "1.0.0",
-  "description": "",
+  "description": "space_invaders game created with Phaserjs",
   "scripts": {
     "dev": "parcel src/index.html -p 8000",
     "build": "parcel build src/index.html --out-dir dist",
@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/emhuo/phaser3-typescript-parcel-starter/issues"
   },
-  "homepage": "https://github.com/emhuo/phaser3-typescript-parcel-starter#readme",
+  "homepage": "https://sifelddin.github.io/space_invaders/",
   "dependencies": {
     "howler": "^2.2.3",
     "phaser": "^3.55.2"

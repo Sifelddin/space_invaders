@@ -153,7 +153,8 @@ export default class GameScene extends Phaser.Scene {
     this.isStarted = !this.isStarted;
     if (this.isStarted) {
       this.startText?.destroy();
-      let saucerIn = setInterval(() => this.makeSaucer(), 15000);
+
+      let saucerIn = setInterval(() => this.makeSaucer(), 20000);
       let enemyIn = setInterval(() => this.moveEnimies(), 1000);
       let fireIn = setInterval(() => this.enemyFire(), 3000);
       let destroyIn = setInterval(() => {
@@ -173,6 +174,7 @@ export default class GameScene extends Phaser.Scene {
         .setOrigin(0.5);
       saucerSound.stop();
       move.stop();
+
       this.intervalIndex.map((index) => clearInterval(index));
       this.intervalIndex = [];
     }
@@ -390,7 +392,7 @@ export default class GameScene extends Phaser.Scene {
         saucer.isDestroyed = true;
         saucerSound.stop();
       });
-    //  saucerSound.play();
+    saucerSound.play();
   }
   nextLevel() {
     if (this.enimies?.children.entries.length === 0) {

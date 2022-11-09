@@ -6,7 +6,7 @@ which the difficulty level increase
 
 ## take a look at : [space invaders](https://sifelddin.github.io/space_invaders/)
 
-
+this project is bootstrapped by the starter below :
 
 <div align="center">
 <h1> Phaser 3.5 + Typescript + Parcel Starter Project </h2>

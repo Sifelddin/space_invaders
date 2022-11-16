@@ -1,4 +1,4 @@
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 
 export const move = new Howl({
   src: ['assets/move.mp3'],
@@ -17,5 +17,5 @@ export const explosionSound = new Howl({
 export const saucerSound = new Howl({
   src: ['assets/saucer.mp3'],
   loop: true,
-  volume: 0.02,
+  volume: 0.01,
 });

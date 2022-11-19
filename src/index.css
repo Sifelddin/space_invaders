@@ -34,13 +34,16 @@ body {
   list-style: none;
 }
 .actions-list li {
-  margin: 1.2rem 0;
+  margin: 0.5rem 0;
   font-size: larger;
 }
 
 .symbol {
   font-size: 1.2rem;
   font-weight: bold;
+}
+.keys {
+  margin: 0.5rem;
 }
 
 @media screen and (min-width: 1250px) {

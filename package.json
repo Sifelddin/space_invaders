@@ -1,6 +1,6 @@
 {
   "name": "space_invaders",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "space_invaders game created with Phaserjs",
   "scripts": {
     "dev": "parcel src/index.html -p 8000",

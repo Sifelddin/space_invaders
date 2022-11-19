@@ -1,3 +1,4 @@
+import { TextStyles } from '~/constants/GameKeys';
 import GameScene from '~/scenes/GameScene';
 import { explosionSound, saucerSound } from '~/sounds/sounds';
 import { AnimationType } from './Animation';
@@ -20,65 +21,65 @@ export default class ManageBullet {
           )
         ) {
           bullet.destroy();
-          this.game.shootedBullets--;
+          clearInterval(i);
+          if (this.game.shootedBullets > 0) {
+            this.game.shootedBullets--;
+          }
           // @ts-ignore-
           if (enemy.health === 1) {
             enemy.destroy();
-            this.game.explosions
-              // @ts-ignore
-              ?.create(enemy.x, enemy.y, 'explosion')
-              .play(AnimationType.EXPLOSION)
-              .on('animationcomplete', () => {
-                this.game.explosions?.children.each((child) => child.destroy());
-              });
-
+            this.createExplosions(enemy);
             // @ts-ignore
-            enemy.texture.key === 'alien'
+            enemy.texture.key === 'green'
               ? this.game.score++
               : (this.game.score += 2);
           } else {
             // @ts-ignore
             enemy.health = 1;
           }
-          clearInterval(i);
           this.game.scoreText?.setText('Score: ' + this.game.score);
           explosionSound.play();
           this.game.nextLevel(i);
+          return;
         }
-      }, this);
+      });
 
       this.game.barriers.map((barrier) => {
         if (barrier.checkCollision(bullet)) {
           bullet.destroy();
           clearInterval(i);
-          this.game.shootedBullets--;
+          if (this.game.shootedBullets > 0) {
+            this.game.shootedBullets--;
+          }
           this.game.scoreText?.setText('Score: ' + this.game.score);
           explosionSound.play();
           this.game.nextLevel(i);
+          return;
         }
       });
 
       this.game.saucers.map((saucer) => {
         if (this.game.checkOverlap(bullet, saucer)) {
           bullet.destroy();
-          saucer.destroy();
-          this.game.shootedBullets--;
-          this.game.explosions
-            ?.create(saucer.x, saucer.y, 'explosion')
-            .play(AnimationType.EXPLOSION)
-            .on('animationcomplete', () => {
-              this.game.explosions?.children.each((child) => child.destroy());
-            });
-
           clearInterval(i);
-          saucer.isDestroyed = true;
-          saucerSound.stop();
-          this.game.score += 3;
+          saucer.destroy();
+          if (this.game.shootedBullets > 0) {
+            this.game.shootedBullets--;
+          }
+          this.createExplosions(saucer);
           explosionSound.play();
-          new Bonus(this.game);
-          this.game.scoreText &&
-            this.game.scoreText.setText('Score: ' + this.game.score);
+          saucerSound.stop();
+          saucer.isDestroyed = true;
+          this.game.score += 5;
+          let bonus = new Bonus(this.game);
+          let bonusText = this.game.add.text(saucer.x, saucer.y, bonus.bonus, {
+            fontSize: '12px',
+            color: 'rgb(254, 246, 216)',
+          });
+          setTimeout(() => bonusText.destroy(), 1500);
+          this.game.scoreText?.setText('Score: ' + this.game.score);
           this.game.nextLevel(i);
+          return;
         }
       });
     }, 10);
@@ -87,8 +88,10 @@ export default class ManageBullet {
       this.game.physics.add.overlap(bullet, this.game.playerLava, () => {
         bullet.destroy();
         clearInterval(i);
+        if (this.game.shootedBullets > 0) {
+          this.game.shootedBullets--;
+        }
         explosionSound.play();
-        this.game.shootedBullets--;
       });
   }
 
@@ -105,7 +108,11 @@ export default class ManageBullet {
     angle &&
       this.game.physics.velocityFromRotation(
         angle,
-        this.game.enemyBulletVelo,
+        // @ts-ignore
+        enemy.bulletVelo
+          ? // @ts-ignore
+            this.game.enemyBulletVelo + enemy.bulletVelo
+          : this.game.enemyBulletVelo,
         bullet.body.velocity,
       );
     this.game.enemyBulletVelo += 2;
@@ -122,7 +129,7 @@ export default class ManageBullet {
           `Level: ${this.game.level}`,
         ]);
         explosionSound.play();
-        if (this.game.lives == 0) {
+        if (this.game.lives === 0) {
           this.game.end();
           this.game.intervalIndex.map((inter) => clearInterval(inter));
           this.game.scene.start('GameOverScene', { score: this.game.score });
@@ -142,8 +149,6 @@ export default class ManageBullet {
         if (barrier.checkCollision(bullet)) {
           bullet.destroy();
           clearInterval(i);
-          // this.game.shootedBullets--;
-          //  this.game.scoreText?.setText('Score: ' + this.game.score);
           explosionSound.play();
           this.game.nextLevel(i);
         }
@@ -156,5 +161,17 @@ export default class ManageBullet {
         explosionSound.play();
         clearInterval(i);
       });
+  }
+
+  createExplosions(enemy: Phaser.GameObjects.GameObject) {
+    this.game.explosions
+      // @ts-ignore
+      ?.create(enemy.x, enemy.y, 'explosion')
+      .play(AnimationType.EXPLOSION);
+    this.game.explosions?.children.each((explosion) =>
+      explosion.on('animationcomplete', () => {
+        explosion.destroy();
+      }),
+    );
   }
 }

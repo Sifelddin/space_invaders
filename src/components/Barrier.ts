@@ -1,3 +1,4 @@
+import { stones } from '~/constants/GameKeys';
 import GameScene from '~/scenes/GameScene';
 
 export default class Barrier {
@@ -10,13 +11,15 @@ export default class Barrier {
     this.x = gx;
     this.y = y;
     this.scene = scene;
-    let rows = scene.level === 2 ? 2 : 3;
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < 3; c++) {
+    let randomRow = scene.level > 1 ? Phaser.Math.Between(1, 3) : 3;
+    let randomِCol = scene.level > 1 ? Phaser.Math.Between(1, 3) : 3;
+    //let rows = scene.level === 2 ? 2 : 3;
+    for (let r = 0; r < randomRow; r++) {
+      for (let c = 0; c < randomِCol; c++) {
         this.child = scene.physics.add.sprite(
           this.x,
           this.y,
-          'stone',
+          stones[Phaser.Math.Between(0, stones.length - 1)],
         ) as SpriteWithDynamicBodyInterface;
         this.child.health = 2;
         this.children.push(this.child);
@@ -27,9 +30,10 @@ export default class Barrier {
         this.y += this.child.displayHeight;
       }
     }
-
-    this.children[this.children.length - 2].destroy();
-    this.children.splice(this.children.length - 2, 1);
+    if (scene.level === 1) {
+      this.children[this.children.length - 2].destroy();
+      this.children.splice(this.children.length - 2, 1);
+    }
   }
   checkCollision(sprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody) {
     let isTouching = false;

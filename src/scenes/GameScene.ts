@@ -3,13 +3,16 @@ import SceneAnimation, { AnimationType } from '~/components/Animation';
 import Barrier from '~/components/Barrier';
 import { EnemyInfo } from '~/constants/Enemies';
 import ManageBullet from '~/components/ManageBullet';
-import { TextStyles } from '~/constants/GameKeys';
+import { stones, TextStyles } from '~/constants/GameKeys';
 import { explosionSound, saucerSound, shootSound, move } from '~/sounds/sounds';
 import { initDataProp } from '~/types/types';
 import SoundVolumeManager from '~/components/ManageSoundVolume';
+import EnemiesManager from '~/components/EnemiesManager';
 
 export default class GameScene extends Phaser.Scene {
+  enemyFireInterval = 3000;
   enemyMoveVelo = 1000;
+  saucerInterval = 22000;
   level = 1;
   enemyInfo = { ...EnemyInfo };
   volumeAvrage = 1;
@@ -29,6 +32,7 @@ export default class GameScene extends Phaser.Scene {
   keyD?: Phaser.Input.Keyboard.Key;
   keyM?: Phaser.Input.Keyboard.Key;
   keyL?: Phaser.Input.Keyboard.Key;
+
   shootedBullets = 0;
   canShootNum = 1;
   soundOn = true;
@@ -60,9 +64,15 @@ export default class GameScene extends Phaser.Scene {
   }
   preload() {
     this.load.image('space', 'assets/space4.png');
-    this.load.image('alien', 'assets/alien.png');
-    this.load.image('alien2', 'assets/alien2.png');
-    this.load.image('enemy-bullet', 'assets/enemy_bullet.png');
+    this.load.image('green', 'assets/green-alien.png');
+    this.load.image('yellow', 'assets/yellow-alien.png');
+    this.load.image('blue', 'assets/blue-alien.png');
+    this.load.image('red', 'assets/red-alien.png');
+    this.load.image('saucer-bullet', 'assets/saucer_bullet.png');
+    this.load.image('green-bullet', 'assets/green_bullet.png');
+    this.load.image('red-bullet', 'assets/red_bullet.png');
+    this.load.image('yellow-bullet', 'assets/yellow_bullet.png');
+    this.load.image('blue-bullet', 'assets/blue_bullet.png');
     this.load.image('ship-bullet', 'assets/bullet.png');
     this.load.image('saucer', 'assets/saucer.png');
     this.load.image('volume', 'assets/volume.png');
@@ -71,12 +81,14 @@ export default class GameScene extends Phaser.Scene {
       frameWidth: 52,
       frameHeight: 66,
     });
+    for (let i = 0; i < stones.length; i++) {
+      this.load.spritesheet(`${stones[i]}`, `assets/stones/${stones[i]}.png`, {
+        frameWidth: 35,
+        frameHeight: 35,
+      });
+    }
     this.load.spritesheet('explosion', 'assets/explosion.png', {
       frameWidth: 63,
-    });
-    this.load.spritesheet('stone', 'assets/space_stone.png', {
-      frameWidth: 38,
-      frameHeight: 28,
     });
   }
   create() {
@@ -94,7 +106,6 @@ export default class GameScene extends Phaser.Scene {
     this.playerLava = this.add.rectangle(0, 0, 800, 10, 0x00).setOrigin(0);
     this.enemyLava = this.add.rectangle(0, 590, 800, 10, 0x000).setOrigin(0);
     this.saucerLava = this.add.rectangle(790, 0, 10, 600, 0x000).setOrigin(0);
-
     this.physics.add.existing(this.playerLava);
     this.physics.add.existing(this.enemyLava);
     this.physics.add.existing(this.saucerLava);
@@ -103,7 +114,11 @@ export default class GameScene extends Phaser.Scene {
     this.shooter.setCollideWorldBounds(true);
     this.shooter.play(AnimationType.FLY);
     this.scoreText = this.add.text(16, 16, 'Score: ' + this.score, TextStyles);
-    this.volumeImg = this.add.image(25, 40, 'volume');
+    this.volumeImg = this.add.image(
+      25,
+      40,
+      this.soundOn ? 'volume' : 'volume-off',
+    );
     this.livesText = this.add.text(
       696,
       16,
@@ -114,15 +129,14 @@ export default class GameScene extends Phaser.Scene {
       .text(400, 300, 'Click to Play or press Enter', TextStyles)
       .setOrigin(0.5);
     this.input.keyboard.on('keydown-SPACE', this.shoot, this);
-    if (this.level !== 3) {
-      this.barriers.push(new Barrier(this, 90, 450));
-      this.barriers.push(new Barrier(this, 370, 450));
-      this.barriers.push(new Barrier(this, 650, 450));
-    }
+
+    this.barriers.push(new Barrier(this, 90, 430));
+    this.barriers.push(new Barrier(this, 370, 430));
+    this.barriers.push(new Barrier(this, 640, 430));
 
     this.input.on('pointerdown', this.pauseAndStart, this);
     this.input.keyboard.on('keydown-ENTER', this.pauseAndStart, this);
-    this.initEnemys();
+    new EnemiesManager(this).initEnemies();
   }
 
   update() {
@@ -153,59 +167,29 @@ export default class GameScene extends Phaser.Scene {
       this.cursors?.up.isDown ||
       this.cursors?.down.isDown
     ) {
-      console.log('test');
-
       new SoundVolumeManager(this);
     }
   }
-  initEnemys() {
-    for (let c = 0; c < this.enemyInfo.count.col; c++) {
-      for (let r = 0; r < this.enemyInfo.count.row; r++) {
-        let enemyX =
-          c * (this.enemyInfo.width + this.enemyInfo.padding) +
-          this.enemyInfo.offset.left;
-        let enemyY =
-          r * (this.enemyInfo.height + this.enemyInfo.padding) +
-          this.enemyInfo.offset.top;
-
-        switch (this.level) {
-          case 2:
-            this.enimies
-              ?.create(enemyX, enemyY, r === 0 ? 'alien2' : 'alien')
-              .setOrigin(0.5);
-            break;
-          case 3:
-            this.enimies
-              ?.create(enemyX, enemyY, r === 0 || r === 1 ? 'alien2' : 'alien')
-              .setOrigin(0.5);
-            break;
-          default:
-            this.enimies?.create(enemyX, enemyY, 'alien').setOrigin(0.5);
-        }
-      }
-    }
-    this.enimies?.children.each((enemy) =>
-      // @ts-ignore
-      enemy.texture.key === 'alien' ? (enemy.health = 1) : (enemy.health = 2),
-    );
+  // create enemies
+  pause() {
+    this.scene.pause();
   }
-
   pauseAndStart() {
     this.isStarted = !this.isStarted;
     if (this.isStarted) {
       this.startText?.destroy();
-      let saucerIn = setInterval(() => this.makeSaucer(), 20000);
+      let saucerIn = setInterval(() => this.makeSaucer(), this.saucerInterval);
       let enemyIn = setInterval(
         () => this.moveEnimies(enemyIn),
         this.enemyMoveVelo,
       );
-      let fireIn = setInterval(() => this.enemyFire(), 3000);
+      let fireIn = setInterval(() => this.enemyFire(), this.enemyFireInterval);
       let destroyIn = setInterval(() => {
         this.saucers.map((saucer, i) => {
           saucer.isDestroyed
             ? this.saucers.splice(i, 1)
             : new ManageBullet(this).manageEnemyBullet(
-                this.physics.add.sprite(saucer.x, saucer.y, 'enemy-bullet'),
+                this.physics.add.sprite(saucer.x, saucer.y, 'saucer-bullet'),
                 saucer,
               );
         });
@@ -217,12 +201,11 @@ export default class GameScene extends Phaser.Scene {
         .setOrigin(0.5);
       saucerSound.stop();
       move.stop();
-
       this.intervalIndex.map((index) => clearInterval(index));
       this.intervalIndex = [];
     }
   }
-  //
+  // change the enemies position x y
   moveEnimies(interval: number) {
     let yTimes = this.yTimes;
     move.play();
@@ -272,13 +255,29 @@ export default class GameScene extends Phaser.Scene {
     enemy &&
       new ManageBullet(this).manageEnemyBullet(
         // @ts-ignore
-        this.physics.add.sprite(enemy.x, enemy.y, 'enemy-bullet'),
+        this.physics.add.sprite(
+          // @ts-ignore
+          enemy.x,
+          // @ts-ignore
+          enemy.y,
+          // @ts-ignore
+          enemy.texture.key === 'red'
+            ? 'red-bullet'
+            : // @ts-ignore
+            enemy.texture.key === 'yellow'
+            ? 'yellow-bullet'
+            : // @ts-ignore
+            enemy.texture.key === 'blue'
+            ? 'blue-bullet'
+            : 'green-bullet',
+        ),
         enemy,
       );
   }
 
   shoot() {
     if (this.isStarted == true) {
+      console.log(this.shootedBullets);
       if (this.shootedBullets < this.canShootNum && this.shooter) {
         new ManageBullet(this).manageShipBullet(
           this.physics.add.sprite(
@@ -320,6 +319,7 @@ export default class GameScene extends Phaser.Scene {
 
   makeSaucer() {
     console.log(this.scene.scene);
+    console.log(this.shootedBullets);
 
     if (this.isStarted == true) {
       this.manageSaucer(
@@ -351,22 +351,28 @@ export default class GameScene extends Phaser.Scene {
       clearInterval(indexIntervale);
       this.timeoutIndex.map((timeout) => clearTimeout(timeout));
       this.bulletsIntervales.map((i) => clearInterval(i));
-      if (this.level > 3) {
-        this.scene.start('WinnerScene', { score: this.score });
-      }
       this.enemyMoveVelo = 1000;
+      if (this.enemyFireInterval > 2000) {
+        this.enemyFireInterval -= 50;
+      }
+      if (this.saucerInterval > 10000) {
+        this.saucerInterval -= 100;
+      }
       this.direction = 'right';
       this.lives++;
+      this.shipBulletVelo = -400;
+      this.shootedBullets = 0;
       this.intervalIndex = [];
       this.bulletsIntervales = [];
       this.timeoutIndex = [];
+      this.saucers = [];
       this.bonusShip?.destroy();
       this.bonusShip = undefined;
       this.isStarted = false;
       this.yTimes = 0;
       this.xTimes = 0;
       this.barriers = [];
-      this.enemyBulletVelo -= 100;
+      this.enemyBulletVelo -= 80;
       this.scene.start('GameLevelScene', {
         level: this.level,
       });

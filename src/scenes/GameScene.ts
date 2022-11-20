@@ -83,8 +83,8 @@ export default class GameScene extends Phaser.Scene {
     });
     for (let i = 0; i < stones.length; i++) {
       this.load.spritesheet(`${stones[i]}`, `assets/stones/${stones[i]}.png`, {
-        frameWidth: 35,
-        frameHeight: 35,
+        frameWidth: 38,
+        frameHeight: 38,
       });
     }
     this.load.spritesheet('explosion', 'assets/explosion.png', {

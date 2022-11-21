@@ -76,8 +76,10 @@ export default class ManageBullet {
             fontSize: '12px',
             color: 'rgb(254, 246, 216)',
           });
-          let j = setTimeout(() => bonusText.destroy(), 1500);
-          clearTimeout(j);
+          let j = setTimeout(() => {
+            bonusText.destroy();
+            clearTimeout(j);
+          }, 1500);
           this.game.scoreText?.setText('Score: ' + this.game.score);
           this.game.nextLevel(i);
           return;

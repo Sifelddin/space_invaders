@@ -1,8 +1,7 @@
 # Space Invaders
 ### the famous space invaders game
 
-to finish the game you must win in 3 levels
-which the difficulty level increase
+during the game the difficulty level increase and you have to get the maximum score
 
 ## take a look at : [space invaders](https://sifelddin.github.io/space_invaders/)
 

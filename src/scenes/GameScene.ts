@@ -92,8 +92,6 @@ export default class GameScene extends Phaser.Scene {
     });
   }
   create() {
-    console.log('scene', this.scene.scene);
-
     this.background = this.add.tileSprite(400, 300, 0, 0, 'space');
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
@@ -277,7 +275,6 @@ export default class GameScene extends Phaser.Scene {
 
   shoot() {
     if (this.isStarted == true) {
-      console.log(this.shootedBullets);
       if (this.shootedBullets < this.canShootNum && this.shooter) {
         new ManageBullet(this).manageShipBullet(
           this.physics.add.sprite(
@@ -318,9 +315,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   makeSaucer() {
-    console.log(this.scene.scene);
-    console.log(this.shootedBullets);
-
     if (this.isStarted == true) {
       this.manageSaucer(
         this.physics.add.sprite(

@@ -48,7 +48,6 @@ export default class EnemiesManager {
       this.game.level < 19
         ? list.splice(list.length - this.game.level, this.game.level)
         : list.splice(list.length - 19, 19);
-      console.log(list);
 
       this.game.enimies?.create(
         enemyX,
